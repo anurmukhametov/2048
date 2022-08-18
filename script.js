@@ -148,6 +148,7 @@ function handleTouchMove(event) {
 	y1 = null;
 
 	if (isGameOver(cellArray)) alert("GAME OVER");
+	if (isVictory(cellArray)) alert("VICTORY");
 }
 
 //#endregion
