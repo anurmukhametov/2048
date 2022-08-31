@@ -1,96 +1,49 @@
 class Cell {
 	constructor(id) {
 		this.$el = document.getElementById(id);
-		this.$sum = this.$el.innerText;
+		this.$sum = 0;
 		this.$el.innerText = this.$sum;
+		this.$styleName = "style_0";
 	}
-	set setSum(value) {
-		this.$sum = value;
-		this.$el.innerText = this.$sum;
+	set sum(value) {
+		this.$sum = value % 2 === 0 ? value : 0;
 	}
-	get getSum() {
+	get sum() {
 		return this.$sum;
 	}
 	get isEmpty() {
-		return this.getSum === 0;
+		return this.sum === 0;
 	}
 	reset() {
-		this.setSum = 0;
+		this.sum = 0;
 	}
 	update() {
-		this.setSum = this.getSum * 2;
+		if (!this.isEmpty) {
+			this.sum = this.sum * 2;
+			this.animationStart("animation_update");
+		}
+	}
+	spawn() {
+		if (Math.random() >= 0.1) this.sum = 2;
+		else this.sum = 4;
+		this.animationStart("animation_spawn");
 	}
 	paint() {
-		switch (this.getSum) {
-			case 2:
-				this.$el.style.color = "#776e65";
-				this.$el.style.backgroundColor = "#eee4da";
-				this.$el.style.boxShadow = "none";
-				break;
-			case 4:
-				this.$el.style.color = "#776e65";
-				this.$el.style.backgroundColor = "#eee1c9";
-				this.$el.style.boxShadow = "none";
-				break;
-			case 8:
-				this.$el.style.color = "#f9f6f2";
-				this.$el.style.backgroundColor = "#f3b27a";
-				this.$el.style.boxShadow = "none";
-				break;
-			case 16:
-				this.$el.style.color = "#f9f6f2";
-				this.$el.style.backgroundColor = "#f69664";
-				this.$el.style.boxShadow = "none";
-				break;
-			case 32:
-				this.$el.style.color = "#f9f6f2";
-				this.$el.style.backgroundColor = "#f77c5f";
-				this.$el.style.boxShadow = "none";
-				break;
-			case 64:
-				this.$el.style.color = "#f9f6f2";
-				this.$el.style.backgroundColor = "#f75f3b";
-				this.$el.style.boxShadow = "none";
-				break;
-			case 128:
-				this.$el.style.color = "#f9f6f2";
-				this.$el.style.backgroundColor = "#edd073";
-				this.$el.style.boxShadow =
-					"0 0 30px 10px rgb(243 215 116 / 24%), inset 0 0 0 1px rgb(255 255 255 / 14%)";
-				break;
-			case 256:
-				this.$el.style.color = "#f9f6f2";
-				this.$el.style.backgroundColor = "#edcc62";
-				this.$el.style.boxShadow =
-					"0 0 30px 10px rgb(243 215 116 / 32%), inset 0 0 0 1px rgb(255 255 255 / 19%)";
-				break;
-			case 512:
-				this.$el.style.color = "#f9f6f2";
-				this.$el.style.backgroundColor = "#edc950";
-				this.$el.style.boxShadow =
-					"0 0 30px 10px rgb(243 215 116 / 40%), inset 0 0 0 1px rgb(255 255 255 / 24%)";
-				break;
-			case 1024:
-				this.$el.style.color = "#f9f6f2";
-				this.$el.style.backgroundColor = "#edc53f";
-				this.$el.style.boxShadow =
-					"0 0 30px 10px rgb(243 215 116 / 48%), inset 0 0 0 1px rgb(255 255 255 / 29%)";
-				break;
-			case 2048:
-				this.$el.style.color = "#f9f6f2";
-				this.$el.style.backgroundColor = "#edc22e";
-				this.$el.style.boxShadow =
-					"0 0 30px 10px rgb(243 215 116 / 56%), inset 0 0 0 1px rgb(255 255 255 / 33%)";
-				break;
-			default:
-				this.$el.textContent = "";
-				this.$el.style.color = "#776e65";
-				this.$el.style.backgroundColor = "#eee4da59";
-				this.$el.style.boxShadow = "none";
-				break;
-		}
+		this.$el.classList.remove(this.$styleName);
+		this.$styleName = `style_${this.sum}`;
+		this.$el.classList.add(this.$styleName);
+		this.$el.innerText = this.sum !== 0 ? this.sum : "";
 		let h = document.getElementById("11").clientHeight;
 		this.$el.style.lineHeight = `${h}px`;
+	}
+	animationStart(animationName) {
+		this.$el.classList.add(animationName);
+		this.$el.addEventListener("animationend", this.animationHandler, false);
+	}
+	animationHandler(event) {
+		let id = event.target.id;
+		let element = document.getElementById(id);
+		element.classList.remove(event.animationName);
 	}
 }
 
@@ -156,7 +109,7 @@ function handleTouchMove(event) {
 function isVictory(array) {
 	for (let i = 0; i < M; i++) {
 		for (let j = 0; j < N; j++) {
-			if (array[i][j].getSum === 2048) {
+			if (array[i][j].sum === 2048) {
 				return true;
 			}
 		}
@@ -190,7 +143,7 @@ function isGameOver(array) {
 function isHorizontalShift(array) {
 	for (let i = 0; i < M; i++) {
 		for (let j = 0; j < N - 1; j++) {
-			if (array[i][j].getSum === array[i][j + 1].getSum) return true;
+			if (array[i][j].sum === array[i][j + 1].sum) return true;
 		}
 	}
 	return false;
@@ -199,7 +152,7 @@ function isHorizontalShift(array) {
 function isVerticalShift(array) {
 	for (let i = 0; i < M - 1; i++) {
 		for (let j = 0; j < N; j++) {
-			if (array[i][j].getSum === array[i + 1][j].getSum) return true;
+			if (array[i][j].sum === array[i + 1][j].sum) return true;
 		}
 	}
 	return false;
@@ -210,7 +163,7 @@ function isLeftShift(array) {
 		for (let j = N - 1; j > 0; j--) {
 			if (array[i][j].isEmpty) continue;
 			if (
-				array[i][j].getSum === array[i][j - 1].getSum ||
+				array[i][j].sum === array[i][j - 1].sum ||
 				array[i][j - 1].isEmpty
 			)
 				return true;
@@ -224,7 +177,7 @@ function isRightShift(array) {
 		for (let j = 0; j < N - 1; j++) {
 			if (array[i][j].isEmpty) continue;
 			if (
-				array[i][j].getSum === array[i][j + 1].getSum ||
+				array[i][j].sum === array[i][j + 1].sum ||
 				array[i][j + 1].isEmpty
 			)
 				return true;
@@ -238,7 +191,7 @@ function isUpShift(array) {
 		for (let j = 0; j < N; j++) {
 			if (array[i][j].isEmpty) continue;
 			if (
-				array[i][j].getSum === array[i - 1][j].getSum ||
+				array[i][j].sum === array[i - 1][j].sum ||
 				array[i - 1][j].isEmpty
 			)
 				return true;
@@ -253,7 +206,7 @@ function isDownShift(array) {
 		for (let j = 0; j < N; j++) {
 			if (array[i][j].isEmpty) continue;
 			if (
-				array[i][j].getSum === array[i + 1][j].getSum ||
+				array[i][j].sum === array[i + 1][j].sum ||
 				array[i + 1][j].isEmpty
 			)
 				return true;
@@ -267,7 +220,7 @@ function rightSwipe(cellArray) {
 		for (let i = 0; i < M; i++) {
 			for (let j = N - 1; j > 0; j--) {
 				rightShift(cellArray[i]);
-				if (cellArray[i][j].getSum === cellArray[i][j - 1].getSum) {
+				if (cellArray[i][j].sum === cellArray[i][j - 1].sum) {
 					cellArray[i][j].update();
 					cellArray[i][j - 1].reset();
 				}
@@ -285,7 +238,7 @@ function rightShift(array) {
 			k = j;
 		}
 		if (!array[j].isEmpty && k !== null) {
-			array[k].setSum = array[j].getSum;
+			array[k].sum = array[j].sum;
 			array[j].reset();
 			k--;
 		}
@@ -297,7 +250,7 @@ function leftSwipe(cellArray) {
 		for (let i = 0; i < M; i++) {
 			for (let j = 0; j < N - 1; j++) {
 				leftShift(cellArray[i]);
-				if (cellArray[i][j].getSum === cellArray[i][j + 1].getSum) {
+				if (cellArray[i][j].sum === cellArray[i][j + 1].sum) {
 					cellArray[i][j].update();
 					cellArray[i][j + 1].reset();
 				}
@@ -315,7 +268,7 @@ function leftShift(array) {
 			k = j;
 		}
 		if (!array[j].isEmpty && k !== null) {
-			array[k].setSum = array[j].getSum;
+			array[k].sum = array[j].sum;
 			array[j].reset();
 			k++;
 		}
@@ -334,10 +287,10 @@ function upSwipe(cellArray) {
 				});
 				upShift(verticalCellArray);
 				verticalCellArray.forEach((element, index) => {
-					cellArray[index][j].setSum = element.getSum;
+					cellArray[index][j].sum = element.sum;
 				});
 
-				if (cellArray[i][j].getSum === cellArray[i + 1][j].getSum) {
+				if (cellArray[i][j].sum === cellArray[i + 1][j].sum) {
 					cellArray[i][j].update();
 					cellArray[i + 1][j].reset();
 				}
@@ -355,7 +308,7 @@ function upShift(array) {
 			k = j;
 		}
 		if (!array[j].isEmpty && k !== null) {
-			array[k].setSum = array[j].getSum;
+			array[k].sum = array[j].sum;
 			array[j].reset();
 			k++;
 		}
@@ -374,10 +327,10 @@ function downSwipe(cellArray) {
 				});
 				downShift(verticalCellArray);
 				verticalCellArray.forEach((element, index) => {
-					cellArray[index][j].setSum = element.getSum;
+					cellArray[index][j].sum = element.sum;
 				});
 
-				if (cellArray[i][j].getSum === cellArray[i - 1][j].getSum) {
+				if (cellArray[i][j].sum === cellArray[i - 1][j].sum) {
 					cellArray[i][j].update();
 					cellArray[i - 1][j].reset();
 				}
@@ -391,11 +344,9 @@ function downSwipe(cellArray) {
 function downShift(array) {
 	let k = null;
 	for (let j = N - 1; j >= 0; j--) {
-		if (array[j].isEmpty && k === null) {
-			k = j;
-		}
+		if (array[j].isEmpty && k === null) k = j;
 		if (!array[j].isEmpty && k !== null) {
-			array[k].setSum = array[j].getSum;
+			array[k].sum = array[j].sum;
 			array[j].reset();
 			k--;
 		}
@@ -403,25 +354,23 @@ function downShift(array) {
 }
 
 function paintCell(array) {
-	array.forEach((array) => {
-		array.forEach((element) => {
-			element.paint();
-		});
-	});
+	for (let i = 0; i < M; i++) {
+		for (let j = 0; j < N; j++) {
+			array[i][j].paint();
+		}
+	}
 }
 
 function spawnCell(array) {
-	if (isFilled(cellArray)) return;
-
-	let i = 0;
-	let j = 0;
-	do {
-		i = Math.floor(Math.random() * N);
-		j = Math.floor(Math.random() * M);
-	} while (!array[i][j].isEmpty);
-
-	if (Math.random() >= 0.1) array[i][j].setSum = 2;
-	else array[i][j].setSum = 4;
+	if (!isFilled(cellArray)) {
+		let i = 0;
+		let j = 0;
+		do {
+			i = Math.floor(Math.random() * N);
+			j = Math.floor(Math.random() * M);
+		} while (!array[i][j].isEmpty);
+		array[i][j].spawn();
+	}
 }
 
 function isFilled(array) {

@@ -57,3 +57,102 @@ body {
 	max-width: calc(80vh - 2em);
 	margin: auto;
 }
+
+.animation_update {
+	animation: animation_update 0.3s;
+}
+
+@keyframes animation_update {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+.animation_spawn {
+	animation: animation_spawn 0.2s;
+}
+
+@keyframes animation_spawn {
+	0% {
+		transform: scale(0.5);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+.style_0 {
+	color: #776e65;
+	background-color: #eee4da59;
+	box-shadow: none;
+}
+
+.style_2 {
+	color: #776e65;
+	background-color: #eee4da;
+	box-shadow: none;
+}
+
+.style_4 {
+	color: #776e65;
+	background-color: #eee1c9;
+	box-shadow: none;
+}
+
+.style_8 {
+	color: #f9f6f2;
+	background-color: #f3b27a;
+	box-shadow: none;
+}
+.style_16 {
+	color: #f9f6f2;
+	background-color: #f69664;
+	box-shadow: none;
+}
+.style_32 {
+	color: #f9f6f2;
+	background-color: #f77c5f;
+	box-shadow: none;
+}
+.style_64 {
+	color: #f9f6f2;
+	background-color: #f75f3b;
+	box-shadow: none;
+}
+.style_128 {
+	color: #f9f6f2;
+	background-color: #edd073;
+	box-shadow: 0 0 30px 10px rgb(243 215 116 / 24%),
+		inset 0 0 0 1px rgb(255 255 255 / 14%);
+}
+.style_256 {
+	color: #f9f6f2;
+	background-color: #edcc62;
+	box-shadow: 0 0 30px 10px rgb(243 215 116 / 32%),
+		inset 0 0 0 1px rgb(255 255 255 / 19%);
+}
+
+.style_512 {
+	color: #f9f6f2;
+	background-color: #edc950;
+	box-shadow: 0 0 30px 10px rgb(243 215 116 / 40%),
+		inset 0 0 0 1px rgb(255 255 255 / 24%);
+}
+.style_1024 {
+	color: #f9f6f2;
+	background-color: #edc53f;
+	box-shadow: 0 0 30px 10px rgb(243 215 116 / 48%),
+		inset 0 0 0 1px rgb(255 255 255 / 29%);
+}
+.style_2048 {
+	color: #f9f6f2;
+	background-color: #edc22e;
+	box-shadow: 0 0 30px 10px rgb(243 215 116 / 56%),
+		inset 0 0 0 1px rgb(255 255 255 / 33%);
+}
