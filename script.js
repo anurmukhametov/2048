@@ -119,20 +119,17 @@ function isVictory(array) {
 
 const M = 4;
 const N = 4;
-
 const cellArray = new Array(N);
+
 for (let i = 0; i < M; i++) {
 	cellArray[i] = new Array(N);
 }
 for (let i = 0; i < M; i++) {
 	for (let j = 0; j < N; j++) {
 		cellArray[i][j] = new Cell(`${i + 1}${j + 1}`);
-		cellArray[i][j].reset();
 	}
 }
-spawnCell(cellArray);
-spawnCell(cellArray);
-paintCell(cellArray);
+restart();
 
 function isGameOver(array) {
 	return (
@@ -382,4 +379,15 @@ function isFilled(array) {
 		}
 	}
 	return true;
+}
+
+function restart() {
+	for (let i = 0; i < M; i++) {
+		for (let j = 0; j < N; j++) {
+			cellArray[i][j].reset();
+		}
+	}
+	spawnCell(cellArray);
+	spawnCell(cellArray);
+	paintCell(cellArray);
 }

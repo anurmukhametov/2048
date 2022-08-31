@@ -1,7 +1,6 @@
 body {
 	background-color: #faf8ef;
 	color: #776e65;
-	font-family: "Roboto", sans-serif;
 	font-size: 2vw;
 	font-family: "Fredoka One", cursive;
 	font-family: "Inter", sans-serif;
@@ -40,22 +39,43 @@ body {
 	height: 40vw;
 	min-width: 250px;
 	min-height: 250px;
-	max-width: calc(60vh - 2em);
-	max-height: calc(60vh - 2em);
+	max-width: calc(60vh - 2rem);
+	max-height: calc(60vh - 2rem);
 	overflow: hidden;
 	margin: auto;
 	background-color: rgb(187, 173, 160);
 	border-radius: 10px;
 }
 
+.header-text {
+	margin: 1rem 0rem;
+}
+
 .header {
 	text-align: center;
 	box-sizing: border-box;
 	font-size: 20px;
-	width: 50vw;
+	width: 40vw;
 	min-width: 250px;
-	max-width: calc(80vh - 2em);
+	max-width: calc(60vh - 2rem);
 	margin: auto;
+	display: flex;
+	justify-content: space-between;
+}
+
+.restart-button {
+	height: calc(2.25rem + 5px);
+	width: calc(6rem + 30px);
+	font-size: 1.1rem;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+	color: #f9f6f2;
+	background-color: #8f7a66;
+	border: none;
+	border-radius: 5px;
+	margin: 1rem 0rem;
 }
 
 .animation_update {
