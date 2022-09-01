@@ -61,18 +61,21 @@ body {
 }
 
 .title {
-	height: 100px;
+	height: 110px;
 	font-size: 2.5rem;
 	font-weight: bold;
 	margin: 1rem 0rem;
-	line-height: 100px;
+	line-height: 110px;
+	box-sizing: content-box;
 }
 
 .menu {
-	height: 100px;
+	box-sizing: border-box;
+	height: 110px;
 	width: 10vw;
 	min-width: 120px;
 	max-width: 15vw;
+	margin: 1rem 0rem;
 }
 
 .score-container {
@@ -84,7 +87,6 @@ body {
 	border-radius: 5px;
 	background: #bbada0;
 	color: white;
-	margin: 10px 0px 0px 0px;
 	text-align: center;
 }
 
@@ -101,7 +103,7 @@ body {
 	background-color: #8f7a66;
 	border: none;
 	border-radius: 5px;
-	margin: 10px 0px 10px 0px;
+	margin-top: 10px;
 }
 
 .animation_update {

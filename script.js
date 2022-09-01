@@ -21,6 +21,8 @@ class Cell {
 		if (!this.isEmpty) {
 			this.sum = this.sum * 2;
 			this.animationStart("animation_update");
+			const score = document.getElementById("score");
+			score.innerText = Number(score.innerText) + this.sum;
 		}
 	}
 	spawn() {
@@ -117,6 +119,24 @@ function isVictory(array) {
 	return false;
 }
 
+function isGameOver(array) {
+	return (
+		isFilled(array) && !isHorizontalShift(array) && !isVerticalShift(array)
+	);
+}
+
+function restart() {
+	for (let i = 0; i < M; i++) {
+		for (let j = 0; j < N; j++) {
+			cellArray[i][j].reset();
+		}
+	}
+	spawnCell(cellArray);
+	spawnCell(cellArray);
+	paintCell(cellArray);
+	document.getElementById("score").innerText = 0;
+}
+
 const M = 4;
 const N = 4;
 const cellArray = new Array(N);
@@ -130,12 +150,6 @@ for (let i = 0; i < M; i++) {
 	}
 }
 restart();
-
-function isGameOver(array) {
-	return (
-		isFilled(array) && !isHorizontalShift(array) && !isVerticalShift(array)
-	);
-}
 
 function isHorizontalShift(array) {
 	for (let i = 0; i < M; i++) {
@@ -379,15 +393,4 @@ function isFilled(array) {
 		}
 	}
 	return true;
-}
-
-function restart() {
-	for (let i = 0; i < M; i++) {
-		for (let j = 0; j < N; j++) {
-			cellArray[i][j].reset();
-		}
-	}
-	spawnCell(cellArray);
-	spawnCell(cellArray);
-	paintCell(cellArray);
 }
