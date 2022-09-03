@@ -11,6 +11,7 @@ import {
 
 const N = 4;
 const cellArray = new Array(N);
+let isEndOfGame = false;
 
 for (let i = 0; i < N; i++) {
 	cellArray[i] = new Array(N);
@@ -22,26 +23,41 @@ for (let i = 0; i < N; i++) {
 }
 restart();
 
+document.getElementById("restart-button").onclick = restart;
+document.getElementById("modal-button").onclick = restart;
+
 //#region DESKTOP SWIPE
 document.onkeydown = function (event) {
-	switch (event.key) {
-		case "ArrowRight":
-			rightSwipe(cellArray);
-			break;
-		case "ArrowLeft":
-			leftSwipe(cellArray);
-			break;
-		case "ArrowDown":
-			downSwipe(cellArray);
-			break;
-		case "ArrowUp":
-			upSwipe(cellArray);
-			break;
-		default:
-			return;
+	if (!isEndOfGame) {
+		switch (event.key) {
+			case "ArrowRight":
+				rightSwipe(cellArray);
+				break;
+			case "ArrowLeft":
+				leftSwipe(cellArray);
+				break;
+			case "ArrowDown":
+				downSwipe(cellArray);
+				break;
+			case "ArrowUp":
+				upSwipe(cellArray);
+				break;
+			default:
+				return;
+		}
+		if (isGameOver(cellArray)) {
+			isEndOfGame = true;
+			document.getElementById("modal").classList.remove("modal-hidden");
+			document.getElementById("modal").classList.add("modal-visible");
+			document.getElementById("modal-title").innerText = "Game over!";
+		}
+		if (isVictory(cellArray)) {
+			isEndOfGame = true;
+			document.getElementById("modal").classList.remove("modal-hidden");
+			document.getElementById("modal").classList.add("modal-visible");
+			document.getElementById("modal-title").innerText = "Victory!";
+		}
 	}
-	if (isGameOver(cellArray)) alert("GAME OVER");
-	if (isVictory(cellArray)) alert("VICTORY");
 };
 //#endregion
 
@@ -57,27 +73,39 @@ function handleTouchStart(event) {
 	y1 = event.touches[0].clientY;
 }
 function handleTouchMove(event) {
-	if (!x1 || !y1) return false;
+	if (!isEndOfGame) {
+		if (!x1 || !y1) return false;
 
-	let x2 = event.touches[0].clientX;
-	let y2 = event.touches[0].clientY;
+		let x2 = event.touches[0].clientX;
+		let y2 = event.touches[0].clientY;
 
-	let xDiff = x2 - x1;
-	let yDiff = y2 - y1;
+		let xDiff = x2 - x1;
+		let yDiff = y2 - y1;
 
-	if (Math.abs(xDiff) > Math.abs(yDiff)) {
-		if (xDiff > 0) rightSwipe(cellArray);
-		else leftSwipe(cellArray);
-	} else {
-		if (yDiff > 0) downSwipe(cellArray);
-		else upSwipe(cellArray);
+		if (Math.abs(xDiff) > Math.abs(yDiff)) {
+			if (xDiff > 0) rightSwipe(cellArray);
+			else leftSwipe(cellArray);
+		} else {
+			if (yDiff > 0) downSwipe(cellArray);
+			else upSwipe(cellArray);
+		}
+
+		x1 = null;
+		y1 = null;
+
+		if (isGameOver(cellArray)) {
+			isEndOfGame = true;
+			document.getElementById("modal").classList.remove("modal-hidden");
+			document.getElementById("modal").classList.add("modal-visible");
+			document.getElementById("modal-title").innerText = "Game over!";
+		}
+		if (isVictory(cellArray)) {
+			isEndOfGame = true;
+			document.getElementById("modal").classList.remove("modal-hidden");
+			document.getElementById("modal").classList.add("modal-visible");
+			document.getElementById("modal-title").innerText = "Victory!";
+		}
 	}
-
-	x1 = null;
-	y1 = null;
-
-	if (isGameOver(cellArray)) alert("GAME OVER");
-	if (isVictory(cellArray)) alert("VICTORY");
 }
 //#endregion
 
@@ -108,7 +136,10 @@ function restart() {
 	spawnCell(cellArray);
 	spawnCell(cellArray);
 	paintCell(cellArray);
+	isEndOfGame = false;
 	document.getElementById("score").innerText = 0;
+	document.getElementById("modal").classList.remove("modal-visible");
+	document.getElementById("modal").classList.add("modal-hidden");
 }
 
 function isHorizontalShift(array) {

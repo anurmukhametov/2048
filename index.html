@@ -21,7 +21,7 @@
 					<div class="score-title">SCORE</div>
 					<div class="score-score" id="score">0</div>
 				</div>
-				<button class="restart-button" onclick="restart()">
+				<button class="restart-button" id="restart-button">
 					New Game
 				</button>
 			</div>
@@ -80,6 +80,15 @@
 					<div class="cell-content" id="44">1</div>
 				</div>
 			</div>
+		</div>
+		<div class="modal modal-hidden" id="modal">
+			<div class="modal-window">
+				<div class="modal-title" id="modal-title"></div>
+				<button class="modal-button" id="modal-button">
+					Try again
+				</button>
+			</div>
+			<div class="overlay" id="overlay"></div>
 		</div>
 		<script type="module" src="src/script.js"></script>
 	</body>
